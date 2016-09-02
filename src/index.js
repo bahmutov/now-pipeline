@@ -25,12 +25,17 @@ function nowApi () {
   const rest = httpClient(authToken)
 
   const api = {
+    // lists current deploy optionally limited with given predicate
     deployments (filter) {
       filter = filter || R.T
       return rest.get('/deployments')
         .then(R.prop('data'))
         .then(R.prop('deployments'))
         .then(R.filter(filter))
+    },
+    // TODO deploys new code
+    deploy (filenames) {
+      // TODO make sure there is 'package.json'
     }
   }
   return api
@@ -38,10 +43,15 @@ function nowApi () {
 
 const now = nowApi()
 
-function allDeploysFor (name) {
-  return now.deployments(R.propEq('name', name))
+//
+// examples
+//
+function showDeploysForProject () { // eslint-disable-line no-unused-vars
+  const name = 'feathers-chat-app-gleb'
+  now.deployments(R.propEq('name', name))
+    .then(console.table).catch(console.error)
 }
-allDeploysFor('feathers-chat-app-gleb')
-  .then(console.table).catch(console.error)
 
-  // now.deployments().then(console.table).catch(console.error)
+function showAllDeploys () { // eslint-disable-line no-unused-vars
+  now.deployments().then(console.table).catch(console.error)
+}

@@ -12,6 +12,8 @@
 
 > Work in progress
 
+[Zeit API](https://zeit.co/api)
+
 ### Small print
 
 Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2016
