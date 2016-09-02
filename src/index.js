@@ -25,10 +25,12 @@ function nowApi () {
   const rest = httpClient(authToken)
 
   const api = {
-    deployments () {
+    deployments (filter) {
+      filter = filter || R.T
       return rest.get('/deployments')
         .then(R.prop('data'))
         .then(R.prop('deployments'))
+        .then(R.filter(filter))
     }
   }
   return api
@@ -36,4 +38,10 @@ function nowApi () {
 
 const now = nowApi()
 
-now.deployments().then(console.table).catch(console.error)
+function allDeploysFor (name) {
+  return now.deployments(R.propEq('name', name))
+}
+allDeploysFor('feathers-chat-app-gleb')
+  .then(console.table).catch(console.error)
+
+  // now.deployments().then(console.table).catch(console.error)
