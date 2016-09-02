@@ -4,6 +4,7 @@ require('console.table')
 const axios = require('axios')
 const R = require('ramda')
 const path = require('path')
+const fs = require('fs')
 
 function httpClient (token) {
   const client = axios.create({
@@ -49,7 +50,9 @@ function nowApi () {
       const names = R.map(path.basename)(otherFiles)
       // console.log('names', names)
 
-      const params = R.zipObj(names, otherFiles)
+      const sources = R.map(name => fs.readFileSync(name, 'utf8'))(filenames)
+
+      const params = R.zipObj(names, sources)
       params.package = packageFile
       console.log(params)
 
