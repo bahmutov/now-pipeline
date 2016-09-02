@@ -4,6 +4,6 @@
     "sign-bunny": "1.0.0"
   },
   "scripts": {
-    "start": "node index"
+    "start": "node index.js"
   }
 }

@@ -37,35 +37,30 @@ function nowApi () {
     },
     // TODO deploys new code
     deploy (filenames) {
-      // TODO make sure there is 'package.json'
       console.log('deploying files', filenames)
 
       const isPackageJson = R.test(/package\.json$/)
-
-      const [[packageFile], otherFiles] = R.partition(isPackageJson, filenames)
-
-      // const packageFile = R.find(isPackageJson)(filenames)
-      // console.log(packageFile)
-
-      const names = R.map(path.basename)(otherFiles)
-      // console.log('names', names)
+      console.assert(R.some(isPackageJson)(filenames),
+        'missing package.json file')
 
       const sources = R.map(name => fs.readFileSync(name, 'utf8'))(filenames)
+      const names = R.map(path.basename)(filenames)
 
       const params = R.zipObj(names, sources)
-      params.package = packageFile
+      params.package = JSON.parse(params['package.json'])
+      delete params['package.json']
       console.log(params)
 
       // const url = 'foo'
       // return Promise.resolve(url)
       return rest.post('/deployments', {
-        body: JSON.stringify(params)
-      }).then(r => data)
-      .catch(r => {
-        console.error('error')
-        console.error(r.response.data)
-        return Promise.reject(new Error(r.response.data.err.message))
-      })
+        data: params
+      }).then(r => r.data)
+        .catch(r => {
+          console.error('error')
+          console.error(r.response.data)
+          return Promise.reject(new Error(r.response.data.err.message))
+        })
     }
   }
   return api
@@ -86,14 +81,17 @@ function showAllDeploys () { // eslint-disable-line no-unused-vars
   now.deployments().then(console.table).catch(console.error)
 }
 
-function deployTest () {
+function deployTest () { // eslint-disable-line no-unused-vars
   const relative = require('path').join.bind(null, __dirname)
   const files = [
-    relative('test/package.json'),
-    relative('test/index.js')
+    relative('../test/package.json'),
+    relative('../test/index.js')
   ]
   return now.deploy(files)
 }
+
+// showAllDeploys()
+
 deployTest()
   .then(console.table)
   .catch(console.error)
