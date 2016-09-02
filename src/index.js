@@ -40,7 +40,7 @@ function nowApi () {
       console.log('deploying files', filenames)
 
       const isPackageJson = R.test(/package\.json$/)
-      console.assert(R.some(isPackageJson)(filenames),
+      console.assert(R.any(isPackageJson)(filenames),
         'missing package.json file')
 
       const sources = R.map(name => fs.readFileSync(name, 'utf8'))(filenames)
