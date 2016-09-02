@@ -3,6 +3,7 @@
 require('console.table')
 const axios = require('axios')
 const R = require('ramda')
+const path = require('path')
 
 function httpClient (token) {
   const client = axios.create({
@@ -36,6 +37,32 @@ function nowApi () {
     // TODO deploys new code
     deploy (filenames) {
       // TODO make sure there is 'package.json'
+      console.log('deploying files', filenames)
+
+      const isPackageJson = R.test(/package\.json$/)
+
+      const [[packageFile], otherFiles] = R.partition(isPackageJson, filenames)
+
+      // const packageFile = R.find(isPackageJson)(filenames)
+      // console.log(packageFile)
+
+      const names = R.map(path.basename)(otherFiles)
+      // console.log('names', names)
+
+      const params = R.zipObj(names, otherFiles)
+      params.package = packageFile
+      console.log(params)
+
+      // const url = 'foo'
+      // return Promise.resolve(url)
+      return rest.post('/deployments', {
+        body: JSON.stringify(params)
+      }).then(r => data)
+      .catch(r => {
+        console.error('error')
+        console.error(r.response.data)
+        return Promise.reject(new Error(r.response.data.err.message))
+      })
     }
   }
   return api
@@ -55,3 +82,15 @@ function showDeploysForProject () { // eslint-disable-line no-unused-vars
 function showAllDeploys () { // eslint-disable-line no-unused-vars
   now.deployments().then(console.table).catch(console.error)
 }
+
+function deployTest () {
+  const relative = require('path').join.bind(null, __dirname)
+  const files = [
+    relative('test/package.json'),
+    relative('test/index.js')
+  ]
+  return now.deploy(files)
+}
+deployTest()
+  .then(console.table)
+  .catch(console.error)
