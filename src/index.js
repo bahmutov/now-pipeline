@@ -47,7 +47,10 @@ function nowApi () {
       const names = R.map(path.basename)(filenames)
 
       const params = R.zipObj(names, sources)
+      // parsed JSON object
       params.package = JSON.parse(params['package.json'])
+      // JSON text
+      // params.package = params['package.json']
       delete params['package.json']
       console.log(params)
 
