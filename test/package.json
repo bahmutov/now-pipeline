@@ -4,6 +4,8 @@
     "sign-bunny": "1.0.0"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "http $NOW_URL",
+    "deploy": "node ../bin/now-pipeline package.json *.js"
   }
 }

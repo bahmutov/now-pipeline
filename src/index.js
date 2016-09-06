@@ -4,6 +4,8 @@ require('console.table')
 const R = require('ramda')
 const path = require('path')
 const fs = require('fs')
+const is = require('check-more-types')
+const la = require('lazy-ass')
 
 const Now = require('now-client')
 
@@ -33,6 +35,8 @@ function nowApi () {
     */
     deploy (filenames) {
       console.log('deploying files', filenames)
+      la(is.strings(filenames), 'missing file names', filenames)
+      la(is.not.empty(filenames), 'expected list of files', filenames)
 
       const isPackageJson = R.test(/package\.json$/)
       console.assert(R.any(isPackageJson)(filenames),
@@ -68,27 +72,29 @@ function nowApi () {
 
 const now = nowApi()
 
+module.exports = now
+
 //
 // examples
 //
-function showDeploysForProject () { // eslint-disable-line no-unused-vars
-  const name = 'now-pipeline-test'
-  now.deployments(R.propEq('name', name))
-    .then(console.table).catch(console.error)
-}
+// function showDeploysForProject () { // eslint-disable-line no-unused-vars
+//   const name = 'now-pipeline-test'
+//   now.deployments(R.propEq('name', name))
+//     .then(console.table).catch(console.error)
+// }
 
-function showAllDeploys () { // eslint-disable-line no-unused-vars
-  now.deployments().then(console.table).catch(console.error)
-}
+// function showAllDeploys () { // eslint-disable-line no-unused-vars
+//   now.deployments().then(console.table).catch(console.error)
+// }
 
-function deployTest () { // eslint-disable-line no-unused-vars
-  const relative = require('path').join.bind(null, __dirname)
-  const files = [
-    relative('../test/package.json'),
-    relative('../test/index.js')
-  ]
-  return now.deploy(files)
-}
+// function deployTest () { // eslint-disable-line no-unused-vars
+//   const relative = require('path').join.bind(null, __dirname)
+//   const files = [
+//     relative('../test/package.json'),
+//     relative('../test/index.js')
+//   ]
+//   return now.deploy(files)
+// }
 
 // showAllDeploys()
 // showDeploysForProject()
