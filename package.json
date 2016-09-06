@@ -78,6 +78,7 @@
   "dependencies": {
     "axios": "0.14.0",
     "console.table": "0.7.0",
+    "now-client": "0.3.0",
     "ramda": "0.22.1"
   }
 }

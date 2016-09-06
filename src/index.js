@@ -6,16 +6,18 @@ const R = require('ramda')
 const path = require('path')
 const fs = require('fs')
 
-function httpClient (token) {
-  const client = axios.create({
-    baseURL: 'https://api.zeit.co/now',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
-  })
-  return client
-}
+const Now = require('now-client')
+
+// function httpClient (token) {
+//   const client = axios.create({
+//     baseURL: 'https://api.zeit.co/now',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Authorization: `Bearer ${token}`
+//     }
+//   })
+//   return client
+// }
 
 function nowApi () {
   const authToken = process.env.NOW_AUTH
@@ -24,16 +26,19 @@ function nowApi () {
     process.exit(-1)
   }
 
-  const rest = httpClient(authToken)
+  // const rest = httpClient(authToken)
+
+  const now = Now(authToken)
 
   const api = {
     // lists current deploy optionally limited with given predicate
     deployments (filter) {
       filter = filter || R.T
-      return rest.get('/deployments')
-        .then(R.prop('data'))
-        .then(R.prop('deployments'))
-        .then(R.filter(filter))
+      // return rest.get('/deployments')
+      return now.getDeployments()
+        // .then(R.prop('data'))
+        // .then(R.prop('deployments'))
+        // .then(R.filter(filter))
     },
     // TODO deploys new code
     deploy (filenames) {
@@ -56,9 +61,14 @@ function nowApi () {
 
       // const url = 'foo'
       // return Promise.resolve(url)
-      return rest.post('/deployments', {
-        data: params
-      }).then(r => r.data)
+      // return rest.post('/deployments', {
+      //   data: params
+      // }).then(r => r.data)
+      return now.createDeployment(params)
+        .then(r => {
+          console.log(r)
+          return r
+        })
         .catch(r => {
           console.error('error')
           console.error(r.response.data)
@@ -93,8 +103,8 @@ function deployTest () { // eslint-disable-line no-unused-vars
   return now.deploy(files)
 }
 
-// showAllDeploys()
+showAllDeploys()
 
-deployTest()
-  .then(console.table)
-  .catch(console.error)
+// deployTest()
+//   .then(console.table)
+//   .catch(console.error)
