@@ -27,9 +27,14 @@
     "node": ">=6"
   },
   "files": [
+    "bin",
     "src/*.js",
     "!src/*-spec.js"
   ],
+  "bin": {
+    "list": "bin/list-deploys.js",
+    "pipeline": "bin/now-pipeline.js"
+  },
   "homepage": "https://github.com/bahmutov/now-pipeline#readme",
   "keywords": [
     "ci",
@@ -55,7 +60,7 @@
     "format": "standard-format -w src/*.js",
     "issues": "git-issues",
     "license": "license-checker --production --onlyunknown --csv",
-    "lint": "standard --verbose --fix src/*.js",
+    "lint": "standard --verbose --fix src/*.js bin/*.js",
     "pretest": "npm run format && npm run lint",
     "secure": "nsp check",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",

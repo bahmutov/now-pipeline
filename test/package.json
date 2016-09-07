@@ -5,7 +5,8 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "http $NOW_URL",
+    "test": "curl $NOW_URL",
+    "list": "node ../bin/list-deploys",
     "deploy": "node ../bin/now-pipeline package.json *.js"
   }
 }

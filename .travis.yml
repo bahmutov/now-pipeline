@@ -9,6 +9,9 @@ node_js:
   - '6'
 before_script:
   - npm prune
+test:
+  - npm test
+  - cd test; npm run list
 after_success:
   - npm run semantic-release
 branches:

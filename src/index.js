@@ -6,13 +6,13 @@ const path = require('path')
 const fs = require('fs')
 const is = require('check-more-types')
 const la = require('lazy-ass')
-
 const Now = require('now-client')
 
 function nowApi () {
   const authToken = process.env.NOW_TOKEN
   if (!authToken) {
-    console.log('WARNING: Cannot find NOW_TOKEN environment variable')
+    console.log('ERROR: Cannot find NOW_TOKEN environment variable')
+    process.exit(-1)
   }
 
   const now = Now(authToken)
@@ -20,6 +20,9 @@ function nowApi () {
   const api = {
     // lists current deploy optionally limited with given predicate
     deployments (filter) {
+      if (is.string(filter)) {
+        filter = R.propEq('name', filter)
+      }
       filter = filter || R.T
       return now.getDeployments()
         .then(R.filter(filter))
