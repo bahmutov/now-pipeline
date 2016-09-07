@@ -10,7 +10,13 @@ require('console.table')
 const nowPipeline = require('..')
 
 nowPipeline.deployments(pkg.name)
-  .then(console.table)
+  .then(deploys => {
+    if (deploys.length) {
+      console.table(deploys)
+    } else {
+      console.log(`Zero deploys for ${pkg.name}`)
+    }
+  })
   .catch(err => {
     console.error(err)
     process.exit(-1)
