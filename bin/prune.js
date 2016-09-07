@@ -45,6 +45,8 @@ Promise.all([
       return nowPipeline.remove(deploy.uid)
     })
   }, Promise.resolve())
+}).then(() => {
+  console.log('Done pruning deploys')
 }).catch(err => {
   console.error(err)
   process.exit(-1)
