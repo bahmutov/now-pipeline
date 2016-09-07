@@ -17,6 +17,8 @@ script:
   - npm run prune
   - echo There should be no deploys now
   - npm run list
+  # back to main folder
+  - cd ..
 after_success:
   - npm run semantic-release
 branches:
