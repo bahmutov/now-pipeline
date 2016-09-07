@@ -17,6 +17,32 @@ function nowApi () {
 
   const now = Now(authToken)
 
+  function wait (seconds) {
+    console.log(`waiting ${seconds} seconds`)
+    return new Promise((resolve, reject) => {
+      setTimeout(resolve)
+    }, seconds * 1000)
+  }
+
+  function checkDeploy (id) {
+    la(is.unemptyString(id), 'expected deploy id', id)
+    return now.getDeployment(id)
+  }
+
+  function waitUntilDeploymentReady (id) {
+    return checkDeploy(id)
+      .then(r => {
+        console.log(r)
+        if (r.state === 'READY') {
+          return r
+        }
+        if (r.state === 'DEPLOYING') {
+          return wait(5).then(() => waitUntilDeploymentReady(id))
+        }
+        throw new Error('Something went wrong with the deploy\n' + JSON.stringify(r))
+      })
+  }
+
   const api = {
     // lists current deploy optionally limited with given predicate
     deployments (filter) {
@@ -66,10 +92,12 @@ function nowApi () {
 
       return now.createDeployment(params)
         .then(r => {
-          console.log(r)
-          return r
+          return waitUntilDeploymentReady(r.uid)
         })
         .catch(r => {
+          if (is.error(r)) {
+            return Promise.reject(r)
+          }
           console.error('error')
           console.error(r.response.data)
           return Promise.reject(new Error(r.response.data.err.message))
