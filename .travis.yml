@@ -11,9 +11,11 @@ before_script:
   - npm prune
 script:
   - npm test
-  - cd test; npm run deploy
-  - cd test; npm run list
-  - cd test; npm run prune
+  - cd test && npm run deploy
+  - cd test && npm run list
+  - cd test && npm run prune
+  - echo There should be no deploys now
+  - cd test && npm run list
 after_success:
   - npm run semantic-release
 branches:
