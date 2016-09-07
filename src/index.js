@@ -10,10 +10,9 @@ const la = require('lazy-ass')
 const Now = require('now-client')
 
 function nowApi () {
-  const authToken = process.env.NOW_AUTH
+  const authToken = process.env.NOW_TOKEN
   if (!authToken) {
-    console.error('Cannot find NOW_AUTH token')
-    process.exit(-1)
+    console.log('WARNING: Cannot find NOW_TOKEN environment variable')
   }
 
   const now = Now(authToken)
