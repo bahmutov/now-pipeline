@@ -9,7 +9,7 @@ node_js:
   - '6'
 before_script:
   - npm prune
-test:
+script:
   - npm test
   - cd test; npm run list
 after_success:
