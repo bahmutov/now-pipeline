@@ -7,6 +7,7 @@
     "start": "node index.js",
     "test": "curl $NOW_URL",
     "list": "node ../bin/list-deploys",
+    "prune": "node ../bin/prune",
     "deploy": "node ../bin/now-pipeline package.json *.js"
   }
 }

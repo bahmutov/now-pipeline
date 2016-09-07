@@ -27,6 +27,9 @@ function nowApi () {
       return now.getDeployments()
         .then(R.filter(filter))
     },
+    aliases () {
+      return now.getAliases()
+    },
     /**
       deploys given filenames. Returns object with result
       {
