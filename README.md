@@ -14,6 +14,12 @@
 
 [Zeit API](https://zeit.co/api)
 
+### Bin commands
+
+* `pipeline` - deploy new version, test it, switch alias, take down old one
+* `pipeline-list` - see the current deploys for the current project
+* `pipeline-prune` - remove all non-aliased deploys
+
 ### Small print
 
 Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2016
