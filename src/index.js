@@ -30,6 +30,10 @@ function nowApi () {
     aliases () {
       return now.getAliases()
     },
+    remove (id) {
+      la(is.unemptyString(id), 'expected deployment id', id)
+      return now.deleteDeployment(id)
+    },
     /**
       deploys given filenames. Returns object with result
       {
