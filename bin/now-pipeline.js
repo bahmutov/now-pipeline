@@ -114,25 +114,25 @@ function updateAliasIfNecessary (deploy) {
     })
 }
 
+function testDeploy (deploy) {
+  la(is.object(deploy), 'wrong deploy object', deploy)
+  console.log('testing url %s', deploy.url)
+  console.log('passing it as env variable %s', passAsName)
+  console.log('test command "%s"', testCommand)
+  la(is.url(deploy.url), 'missing deploy url in', deploy)
+
+  const env = {}
+  env[passAsName] = deploy.url
+  return runCommand(testCommand, env)
+    .then(R.always(deploy))
+}
+
 start
   .then(setFullHost)
-  .then(deploy => {
-    la(is.object(deploy), 'wrong deploy object', deploy)
-    console.log('testing url %s', deploy.url)
-    console.log('passing it as env variable %s', passAsName)
-    console.log('test command "%s"', testCommand)
-    la(is.url(deploy.url), 'missing deploy url in', deploy)
-
-    const env = {}
-    env[passAsName] = deploy.url
-    return runCommand(testCommand, env)
-      .then(R.always(deploy))
-  })
+  .then(testDeploy)
   .then(R.tap(deployIsWorking))
   .then(updateAliasIfNecessary)
   .catch(err => {
     console.error(err)
     process.exit(-1)
   })
-// TODO switch alias to new URL
-// TODO take down previous deployment

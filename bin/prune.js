@@ -2,12 +2,10 @@
 
 'use strict'
 
-const path = require('path')
-const packageFilename = path.join(process.cwd(), 'package.json')
-const pkg = require(packageFilename)
 require('console.table')
 
 const nowPipeline = require('..')
+const pkg = nowPipeline.getPackage()
 
 function nonAliasedDeploys (deploys, aliases) {
   const aliasedDeploys = aliases.map(alias => alias.deploymentId)

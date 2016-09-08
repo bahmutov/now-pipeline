@@ -9,6 +9,28 @@ const fs = require('fs')
 const is = require('check-more-types')
 const la = require('lazy-ass')
 const Now = require('now-client')
+const combineDeploysAndAliases = require('./deploys-with-aliases')
+const moment = require('moment')
+
+function getPackage () {
+  const packageFilename = path.join(process.cwd(), 'package.json')
+  const pkg = require(packageFilename)
+  return pkg
+}
+
+function addRelativeTimes (deploys) {
+  return deploys.map(deploy => {
+    // relative time without "ago" suffix
+    deploy.when = moment(Number(deploy.created)).fromNow(true)
+    return deploy
+  })
+}
+
+function sortByAge (deploys) {
+  return R.sortBy(
+    R.compose(Number, R.prop('created'))
+  )(deploys)
+}
 
 function nowApi () {
   const authToken = process.env.NOW_TOKEN
@@ -29,6 +51,13 @@ function nowApi () {
   function checkDeploy (id) {
     la(is.unemptyString(id), 'expected deploy id', id)
     return now.getDeployment(id)
+  }
+
+  function getDeploysAndAliases () {
+    return Promise.all([
+      now.getDeployments(),
+      now.getAliases()
+    ]).then(([deploys, aliases]) => combineDeploysAndAliases({deploys, aliases}))
   }
 
   function waitUntilDeploymentReady (id, secondsRemaining) {
@@ -53,13 +82,16 @@ function nowApi () {
 
   const api = {
     now, // expose the actual now client
+    getPackage,
     // lists current deploy optionally limited with given predicate
     deployments (filter) {
       if (is.string(filter)) {
         filter = R.propEq('name', filter)
       }
       filter = filter || R.T
-      return now.getDeployments()
+      return getDeploysAndAliases()
+        .then(sortByAge)
+        .then(addRelativeTimes)
         .then(R.filter(filter))
     },
     aliases () {
