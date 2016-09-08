@@ -43,6 +43,11 @@ where the `package.json` has
 }
 ```
 
+## Related
+
+* [next-update](https://github.com/bahmutov/next-update) is a similar
+  "if tests pass, upgrade" tool for your NPM dependencies.
+
 ### Small print
 
 Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2016
