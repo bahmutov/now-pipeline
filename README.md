@@ -16,9 +16,13 @@
 
 ### Bin commands
 
-* `pipeline` - deploy new version, test it, switch alias, take down old one
-* `pipeline-list` - see the current deploys for the current project
-* `pipeline-prune` - remove all non-aliased deploys
+* `now-pipeline` is the most complex command with several steps
+  - deploys new version
+  - tests it
+  - switches alias to new deployment
+  - takes down old deploy
+* `now-pipeline-list` - see the current deploys for the current project
+* `now-pipeline-prune` - remove all non-aliased deploys for the current project
 
 ### Small print
 
