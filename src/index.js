@@ -36,7 +36,7 @@ function nowApi () {
     const sleepSeconds = 5
     return checkDeploy(id)
       .then(r => {
-        console.log(r)
+        console.log(r.state, r.host, 'limit', secondsRemaining, 'seconds')
         if (r.state === 'READY') {
           return r
         }
@@ -113,7 +113,7 @@ function nowApi () {
       return now.createDeployment(params)
         .then(r => {
           // TODO make an option
-          const maxWaitSeconds = 60 * 3
+          const maxWaitSeconds = 60 * 10
           return waitUntilDeploymentReady(r.uid, maxWaitSeconds)
         })
         .catch(r => {
