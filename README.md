@@ -24,6 +24,25 @@
 * `now-pipeline-list` - see the current deploys for the current project
 * `now-pipeline-prune` - remove all non-aliased deploys for the current project
 
+You can pass custom test command to the pipeline to be used after deploying
+fresh install using `--test "command"` argument. The command will get `NOW_URL`
+environment variable with new install. For example
+
+```sh
+npm i -g now-pipeline
+now-pipeline --test "npm run prod-test"
+```
+
+where the `package.json` has
+
+```json
+{
+  "scripts": {
+    "prod-test": "e2e-test $NOW_URL"
+  }
+}
+```
+
 ### Small print
 
 Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2016

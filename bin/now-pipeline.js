@@ -15,6 +15,7 @@ console.log('deploying files', filenames)
 
 const envUrlName = 'NOW_URL'
 const passAsName = argv.as || envUrlName
+const testCommand = argv.test || 'npm test'
 
 const nowPipeline = require('..')
 
@@ -119,11 +120,12 @@ start
     la(is.object(deploy), 'wrong deploy object', deploy)
     console.log('testing url %s', deploy.url)
     console.log('passing it as env variable %s', passAsName)
+    console.log('test command "%s"', testCommand)
     la(is.url(deploy.url), 'missing deploy url in', deploy)
 
     const env = {}
     env[passAsName] = deploy.url
-    return runCommand(['npm', 'test'], env)
+    return runCommand(testCommand, env)
       .then(R.always(deploy))
   })
   .then(R.tap(deployIsWorking))

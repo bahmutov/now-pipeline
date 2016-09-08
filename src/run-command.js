@@ -5,6 +5,9 @@ const is = require('check-more-types')
 const spawn = require('cross-spawn')
 
 function runCommand (command, extraEnv) {
+  if (is.string(command)) {
+    command = command.split(' ')
+  }
   la(is.array(command), 'expected command and args array', command)
   la(command.length > 0, 'missing command, needs at least something', command)
   la(is.object(extraEnv), 'expected env object', extraEnv)

@@ -8,6 +8,7 @@
     "test": "curl $NOW_URL",
     "list": "node ../bin/list-deploys",
     "prune": "node ../bin/prune",
-    "deploy": "node ../bin/now-pipeline package.json *.js"
+    "deploy": "node ../bin/now-pipeline --test 'npm run prod-test' package.json *.js",
+    "prod-test": "echo Testing deployed url; curl $NOW_URL"
   }
 }
