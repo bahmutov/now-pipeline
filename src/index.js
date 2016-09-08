@@ -1,6 +1,8 @@
 'use strict'
 
 require('console.table')
+
+const debug = require('debug')('now-pipeline')
 const R = require('ramda')
 const path = require('path')
 const fs = require('fs')
@@ -69,7 +71,9 @@ function nowApi () {
       }
     */
     deploy (filenames) {
-      console.log('deploying files', filenames)
+      debug('deploying %d files', filenames.length)
+      debug(filenames)
+
       la(is.strings(filenames), 'missing file names', filenames)
       la(is.not.empty(filenames), 'expected list of files', filenames)
 
