@@ -18,6 +18,7 @@ const passAsName = argv.as || envUrlName
 const testCommand = argv.test || 'npm test'
 
 const nowPipeline = require('..')
+const pkg = nowPipeline.getPackage()
 
 var start
 
@@ -71,27 +72,30 @@ function addHttps (url) {
 }
 
 function updateAliasIfNecessary (deploy) {
-  return nowPipeline.aliases()
-    .then(aliases => {
-      console.log('found %d aliases', aliases.length)
-      debug(aliases)
+  return nowPipeline.deployments(pkg.name)
+    .then(deploys => {
+      return R.filter(R.prop('alias'))(deploys)
+    })
+    .then(deployed => {
+      console.log('found %d deploy(s) with aliases', deployed.length)
+      debug(deployed)
 
-      if (!aliases.length) {
+      if (!deployed.length) {
         console.log('there is no existing alias')
         console.log('will skip updating alias to', deploy.url)
         return
       }
 
-      if (!aliases.length) {
-        console.log('found %d aliases', aliases.length)
+      if (deployed.length > 1) {
+        console.log('found %d deployed aliases', deployed.length)
         console.log('not sure which one to update')
         return Promise.reject(new Error('Multiple aliases'))
       }
 
-      la(aliases.length === 1, 'expect single alias')
+      la(deployed.length === 1, 'expect single alias')
 
-      const alias = aliases[0]
-      if (alias.deploymentId === deploy.uid) {
+      const alias = deployed[0]
+      if (alias.uid === deploy.uid) {
         console.log('The current alias %s points at the same deploy %s',
           alias.alias, deploy.url)
         console.log('Nothing to do')
@@ -108,8 +112,8 @@ function updateAliasIfNecessary (deploy) {
             alias.alias, deploy.url)
           debug('createAlias result', result)
           console.log('taking down previously aliased deploy',
-            alias.deploymentId)
-          return nowPipeline.remove(alias.deploymentId)
+            alias.uid)
+          return nowPipeline.remove(alias.uid)
         })
     })
 }
