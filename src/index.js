@@ -38,7 +38,7 @@ function nowApi () {
         if (r.state === 'READY') {
           return r
         }
-        if (r.state === 'DEPLOYING') {
+        if (r.state === 'DEPLOYING' || r.state === 'BOOTED') {
           return wait(5).then(() => waitUntilDeploymentReady(id))
         }
         throw new Error('Something went wrong with the deploy\n' + JSON.stringify(r))

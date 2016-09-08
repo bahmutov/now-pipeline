@@ -54,9 +54,7 @@ function setFullHost (deploy) {
   if (!deploy.url) {
     deploy.url = deploy.host
   }
-  if (!deploy.url.startsWith('https://')) {
-    deploy.url = `https://${deploy.url}`
-  }
+  deploy.url = addHttps(deploy.url)
 
   console.log('deployed to url', deploy.url)
   la(is.url(deploy.url), 'expected deploy.url to be full https', deploy.url)
@@ -74,15 +72,33 @@ function addHttps (url) {
 function updateAliasIfNecessary (deploy) {
   return nowPipeline.aliases()
     .then(aliases => {
-      console.log('%d aliases', aliases.length)
-      console.log(aliases)
-      const urls = aliases.map(R.prop('alias')).map(addHttps)
-      debug('alias urls', urls)
-      console.log(urls)
+      console.log('found %d aliases', aliases.length)
+      debug(aliases)
 
-      if (urls.includes(deploy.url)) {
-        console.log('new deploy url %s is already an alias', deploy.url)
+      if (!aliases.length) {
+        console.log('there is no existing alias')
+        console.log('will skip updating alias to', deploy.url)
+        return
       }
+
+      if (!aliases.length) {
+        console.log('found %d aliases', aliases.length)
+        console.log('not sure which one to update')
+        return Promise.reject(new Error('Multiple aliases'))
+      }
+
+      la(aliases.length === 1, 'expect single alias')
+
+      const alias = aliases[0]
+      if (alias.deploymentId === deploy.uid) {
+        console.log('The current alias %s points at the same deploy %s',
+          alias.alias, deploy.url)
+        console.log('Nothing to do')
+        return
+      }
+
+      console.log('switching alias %s to point at new deploy %s',
+        alias.alias, deploy.url)
     })
 }
 
