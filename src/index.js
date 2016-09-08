@@ -22,8 +22,8 @@ function nowApi () {
   function wait (seconds) {
     console.log(`waiting ${seconds} seconds`)
     return new Promise((resolve, reject) => {
-      setTimeout(resolve)
-    }, seconds * 1000)
+      setTimeout(resolve, seconds * 1000)
+    })
   }
 
   function checkDeploy (id) {
