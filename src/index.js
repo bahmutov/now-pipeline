@@ -83,10 +83,18 @@ function nowApi () {
       console.assert(R.any(isPackageJson)(filenames),
         'missing package.json file')
 
+      const packageJsonFilename = filenames.find(isPackageJson)
+      const packageJsonFolder = path.dirname(packageJsonFilename)
+      debug('package.json filename is', packageJsonFilename)
+      debug('in folder', packageJsonFolder)
+
       // TODO make sure all files exist
 
       const sources = R.map(name => fs.readFileSync(name, 'utf8'))(filenames)
-      const names = R.map(path.basename)(filenames)
+      const names = R.map(filename => {
+        return path.relative(packageJsonFolder, filename)
+      })(filenames)
+      debug('sending files', names)
 
       const params = R.zipObj(names, sources)
       // parsed JSON object
@@ -94,7 +102,7 @@ function nowApi () {
       // JSON text
       // params.package = params['package.json']
       delete params['package.json']
-      console.log(params)
+      // console.log(params)
 
       return now.createDeployment(params)
         .then(r => {
