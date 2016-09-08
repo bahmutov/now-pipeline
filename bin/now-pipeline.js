@@ -99,6 +99,17 @@ function updateAliasIfNecessary (deploy) {
 
       console.log('switching alias %s to point at new deploy %s',
         alias.alias, deploy.url)
+      la(is.unemptyString(alias.alias), 'invalid alias', alias)
+
+      return nowPipeline.now.createAlias(deploy.uid, alias.alias)
+        .then(result => {
+          console.log('switched alias %s to point at %s',
+            alias.alias, deploy.url)
+          debug('createAlias result', result)
+          console.log('taking down previously aliased deploy',
+            alias.deploymentId)
+          return nowPipeline.remove(alias.deploymentId)
+        })
     })
 }
 

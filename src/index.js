@@ -46,6 +46,7 @@ function nowApi () {
   }
 
   const api = {
+    now, // expose the actual now client
     // lists current deploy optionally limited with given predicate
     deployments (filter) {
       if (is.string(filter)) {
@@ -60,6 +61,7 @@ function nowApi () {
     },
     remove (id) {
       la(is.unemptyString(id), 'expected deployment id', id)
+      debug('deleting deployment %s', id)
       return now.deleteDeployment(id)
     },
     /**
