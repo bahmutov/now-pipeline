@@ -112,7 +112,8 @@ function nowApi () {
 
       return now.createDeployment(params)
         .then(r => {
-          const maxWaitSeconds = 60
+          // TODO make an option
+          const maxWaitSeconds = 60 * 3
           return waitUntilDeploymentReady(r.uid, maxWaitSeconds)
         })
         .catch(r => {
