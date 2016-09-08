@@ -31,7 +31,9 @@ function nowApi () {
     return now.getDeployment(id)
   }
 
-  function waitUntilDeploymentReady (id) {
+  function waitUntilDeploymentReady (id, secondsRemaining) {
+    la(is.number(secondsRemaining), 'wrong waiting limit', secondsRemaining)
+    const sleepSeconds = 5
     return checkDeploy(id)
       .then(r => {
         console.log(r)
@@ -39,7 +41,11 @@ function nowApi () {
           return r
         }
         if (r.state === 'DEPLOYING' || r.state === 'BOOTED') {
-          return wait(5).then(() => waitUntilDeploymentReady(id))
+          if (secondsRemaining < sleepSeconds) {
+            throw new Error('Deploy timed out\n' + JSON.stringify(r))
+          }
+          return wait(sleepSeconds)
+            .then(() => waitUntilDeploymentReady(id, secondsRemaining - sleepSeconds))
         }
         throw new Error('Something went wrong with the deploy\n' + JSON.stringify(r))
       })
@@ -106,7 +112,8 @@ function nowApi () {
 
       return now.createDeployment(params)
         .then(r => {
-          return waitUntilDeploymentReady(r.uid)
+          const maxWaitSeconds = 60
+          return waitUntilDeploymentReady(r.uid, maxWaitSeconds)
         })
         .catch(r => {
           if (is.error(r)) {
