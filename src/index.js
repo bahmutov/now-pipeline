@@ -99,10 +99,10 @@ function nowApi () {
       const params = R.zipObj(names, sources)
       // parsed JSON object
       params.package = JSON.parse(params['package.json'])
-      // JSON text
-      // params.package = params['package.json']
       delete params['package.json']
-      // console.log(params)
+
+      // we do not need dev dependencies in the deployed server
+      delete params.package.devDependencies
 
       return now.createDeployment(params)
         .then(r => {
