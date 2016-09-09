@@ -1,6 +1,6 @@
 # now-pipeline
 
-> Simple CI commands to deploy new version to Zeit Now if tests pass
+> Single CI command to deploy new version to Zeit Now, including e2e tests and alias switch
 
 [![NPM][npm-icon] ][npm-url]
 
@@ -8,11 +8,53 @@
 [![semantic-release][semantic-image] ][semantic-url]
 [![js-standard-style][standard-image]][standard-url]
 
+## Work in progress
+
+Currently need to pass source files to the `now-pipeline` command.
+
+```
+$ now-pipeline server.js src/*.js
+```
+
 ## Install and use
 
-> Work in progress
+```sh
+npm i -g now-pipeline
+```
 
-[Zeit API](https://zeit.co/api)
+Set `NOW_TOKEN` CI environment variable with a token that you can get from
+[Zeit account page](https://zeit.co/account#api-tokens)
+
+Add CI command to `now-pipeline`. By default it will execute `npm test`
+and will pass the deployed url as `NOW_URL` environment variable. You can
+customize everything.
+
+## Example
+
+Simple Travis commands
+
+```yml
+script:
+  # after unit tests
+  - npm i -g now-pipeline
+  - now-pipeline
+```
+
+Prune existing deploys (if they do not have an alias) and show the deploy.
+
+```yml
+  - npm i -g now-pipeline
+  - now-pipeline-prune
+  - now-pipeline
+  - now-pipeline-list
+```
+
+Pass test command and name of the environment variable for deployed url
+
+```yml
+  - npm i -g now-pipeline
+  - now-pipeline --as HOST --test "npm run e2e"
+```
 
 ### Bin commands
 
@@ -42,6 +84,11 @@ where the `package.json` has
   }
 }
 ```
+
+## Details
+
+* `now-pipeline` uses [Zeit API](https://zeit.co/api) via [now-client](https://github.com/zeit/now-client).
+* You can see the list of recent actions at [Zeit dashboard](https://zeit.co/dashboard).
 
 ## Related
 

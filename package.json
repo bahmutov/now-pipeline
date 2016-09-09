@@ -1,7 +1,7 @@
 {
   "name": "now-pipeline",
   "version": "0.0.0-semantic-release",
-  "description": "Simple CI commands to deploy new version to Zeit Now if tests pass",
+  "description": "Single CI command to deploy new version to Zeit Now, including e2e tests and alias switch",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bugs": "https://github.com/bahmutov/now-pipeline/issues",
   "config": {
