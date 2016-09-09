@@ -7,11 +7,8 @@ const R = require('ramda')
 const runCommand = require('../src/run-command')
 const is = require('check-more-types')
 const la = require('lazy-ass')
-
+const pkgd = require('pkgd')
 const argv = require('minimist')(process.argv.slice(2))
-
-const filenames = argv._
-console.log('deploying files', filenames)
 
 const envUrlName = 'NOW_URL'
 const passAsName = argv.as || envUrlName
@@ -19,6 +16,11 @@ const testCommand = argv.test || 'npm test'
 
 const nowPipeline = require('..')
 const pkg = nowPipeline.getPackage()
+
+function findFiles () {
+  return pkgd(process.cwd())
+    .then(R.prop('files'))
+}
 
 var start
 
@@ -47,9 +49,9 @@ if (process.env[envUrlName]) {
 
   // start = Promise.resolve(url)
   // todo Find the deployment with given url
-  start = findDeploy(url)
+  start = findFiles().then((filenames) => findDeploy(url))
 } else {
-  start = nowPipeline.deploy(filenames)
+  start = findFiles().then(nowPipeline.deploy)
 }
 
 function setFullHost (deploy) {

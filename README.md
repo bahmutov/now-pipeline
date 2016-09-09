@@ -22,14 +22,6 @@ for it. A single command `now-pipeline`
 Should be enough to automatically update the server or service running in
 the cloud without breaking anything.
 
-## Work in progress
-
-Currently need to pass source files to the `now-pipeline` command.
-
-```
-$ now-pipeline server.js src/*.js
-```
-
 ## Install and use
 
 ```sh
