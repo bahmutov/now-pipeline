@@ -71,8 +71,11 @@ function addHttps (url) {
   return url.startsWith('https://') ? url : 'https://' + url
 }
 
-function updateAliasIfNecessary (deploy) {
-  return nowPipeline.deployments(pkg.name)
+const updateAliasIfNecessary = R.curry(
+  function updateAliasIfNecessary (aliasName, deploy) {
+    la(is.maybe.string(aliasName), 'alias name should be a string', aliasName)
+
+    return nowPipeline.deployments(pkg.name)
     .then(deploys => {
       return R.filter(R.prop('alias'))(deploys)
     })
@@ -82,8 +85,12 @@ function updateAliasIfNecessary (deploy) {
 
       if (!deployed.length) {
         console.log('there is no existing alias')
-        console.log('will skip updating alias to', deploy.url)
-        return
+        if (!aliasName) {
+          console.log('will skip updating alias to', deploy.url)
+          return
+        }
+        console.log('setting new alias to %s', aliasName)
+        return nowPipeline.now.createAlias(deploy.uid, aliasName)
       }
 
       if (deployed.length > 1) {
@@ -108,15 +115,15 @@ function updateAliasIfNecessary (deploy) {
 
       return nowPipeline.now.createAlias(deploy.uid, alias.alias)
         .then(result => {
+          debug('createAlias result', result)
           console.log('switched alias %s to point at %s',
             alias.alias, deploy.url)
-          debug('createAlias result', result)
           console.log('taking down previously aliased deploy',
             alias.uid)
           return nowPipeline.remove(alias.uid)
         })
     })
-}
+  })
 
 function testDeploy (deploy) {
   la(is.object(deploy), 'wrong deploy object', deploy)
@@ -135,7 +142,7 @@ start
   .then(setFullHost)
   .then(testDeploy)
   .then(R.tap(deployIsWorking))
-  .then(updateAliasIfNecessary)
+  .then(updateAliasIfNecessary(argv.alias))
   .catch(err => {
     console.error(err)
     process.exit(-1)

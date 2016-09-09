@@ -14,7 +14,7 @@ Single command `now-pipeline`
 
 - deploys new version
 - tests it
-- switches alias to new deployment (if there is an alias)
+- switches alias to new deployment
 - takes down the old deploy
 
 ## Work in progress
@@ -52,15 +52,25 @@ script:
 Prune existing deploys (if they do not have an alias) and show the deploy.
 
 ```yml
+script:
   - npm i -g now-pipeline
   - now-pipeline-prune
   - now-pipeline
   - now-pipeline-list
 ```
 
+Set [domain alias](https://zeit.co/world) if there is no existing one
+
+```yml
+script:
+  - npm i -g now-pipeline
+  - node-pipeline --alias foo.domain.com
+```
+
 Pass test command and name of the environment variable for deployed url
 
 ```yml
+script:
   - npm i -g now-pipeline
   - now-pipeline --as HOST --test "npm run e2e"
 ```
