@@ -8,6 +8,15 @@
 [![semantic-release][semantic-image] ][semantic-url]
 [![js-standard-style][standard-image]][standard-url]
 
+## What and why
+
+Single command `now-pipeline`
+
+- deploys new version
+- tests it
+- switches alias to new deployment (if there is an alias)
+- takes down the old deploy
+
 ## Work in progress
 
 Currently need to pass source files to the `now-pipeline` command.
@@ -56,13 +65,12 @@ Pass test command and name of the environment variable for deployed url
   - now-pipeline --as HOST --test "npm run e2e"
 ```
 
-### Bin commands
+## Example projects
 
-* `now-pipeline` is the most complex command with several steps
-  - deploys new version
-  - tests it
-  - switches alias to new deployment
-  - takes down old deploy
+* [todomvc-express](https://github.com/bahmutov/todomvc-express/blob/master/.travis.yml)
+
+## Additional bin commands
+
 * `now-pipeline-list` - see the current deploys for the current project
 * `now-pipeline-prune` - remove all non-aliased deploys for the current project
 
