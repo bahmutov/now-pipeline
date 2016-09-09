@@ -144,6 +144,8 @@ start
   .then(R.tap(deployIsWorking))
   .then(updateAliasIfNecessary(argv.alias))
   .catch(err => {
+    console.error('Something went wrong')
+    console.error('Sometimes restarting pipeline can help')
     console.error(err)
     process.exit(-1)
   })

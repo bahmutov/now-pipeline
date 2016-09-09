@@ -41,7 +41,6 @@ function nowApi () {
   const now = Now(authToken)
 
   function wait (seconds) {
-    console.log(`waiting ${seconds} seconds`)
     return new Promise((resolve, reject) => {
       setTimeout(resolve, seconds * 1000)
     })
@@ -153,6 +152,8 @@ function nowApi () {
         })
         .catch(r => {
           if (is.error(r)) {
+            console.error('error during deployment')
+            console.error(r.message)
             return Promise.reject(r)
           }
           console.error('error')
