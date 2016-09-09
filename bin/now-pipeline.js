@@ -3,6 +3,9 @@
 'use strict'
 
 const debug = require('debug')('now-pipeline')
+const initCrashReporter = require('node-sentry-error-reporter')
+initCrashReporter()
+
 const R = require('ramda')
 const runCommand = require('../src/run-command')
 const is = require('check-more-types')
