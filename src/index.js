@@ -118,8 +118,9 @@ function nowApi () {
       la(is.not.empty(filenames), 'expected list of files', filenames)
 
       const isPackageJson = R.test(/package\.json$/)
-      console.assert(R.any(isPackageJson)(filenames),
-        'missing package.json file')
+      const packageJsonPresent = R.any(isPackageJson)
+      la(packageJsonPresent(filenames),
+        'missing package.json file in the list', filenames)
 
       const packageJsonFilename = filenames.find(isPackageJson)
       const packageJsonFolder = path.dirname(packageJsonFilename)
