@@ -1,6 +1,7 @@
 # now-pipeline
 
-> Single CI command to deploy new version to Zeit Now, including e2e tests and alias switch
+> Single CI command to deploy new code to Zeit Now
+> Includes e2e tests and the alias switch
 
 [![NPM][npm-icon] ][npm-url]
 
