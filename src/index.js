@@ -116,6 +116,9 @@ function nowApi () {
 
       la(is.strings(filenames), 'missing file names', filenames)
       la(is.not.empty(filenames), 'expected list of files', filenames)
+      filenames.forEach(name => {
+        la(fs.existsSync(name), 'cannot find file', name)
+      })
 
       const isPackageJson = R.test(/package\.json$/)
       const packageJsonPresent = R.any(isPackageJson)
