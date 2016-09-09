@@ -35,8 +35,7 @@ function sortByAge (deploys) {
 function nowApi () {
   const authToken = process.env.NOW_TOKEN
   if (!authToken) {
-    console.log('ERROR: Cannot find NOW_TOKEN environment variable')
-    process.exit(-1)
+    console.log('WARNING: Cannot find NOW_TOKEN environment variable')
   }
 
   const now = Now(authToken)
