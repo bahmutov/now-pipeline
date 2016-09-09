@@ -10,12 +10,17 @@
 
 ## What and why
 
-Single command `now-pipeline`
+I am [super excited](https://glebbahmutov.com/blog/think-inside-the-box/)
+about [Zeit Now](https://zeit.co/now) tool; this is the "missing CI tool"
+for it. A single command `now-pipeline`
 
 - deploys new version
 - tests it
-- switches alias to new deployment
-- takes down the old deploy
+- switches alias to the new deployment
+- takes down the old deployment
+
+Should be enough to automatically update the server or service running in
+the cloud without breaking anything.
 
 ## Work in progress
 
@@ -64,7 +69,7 @@ Set [domain alias](https://zeit.co/world) if there is no existing one
 ```yml
 script:
   - npm i -g now-pipeline
-  - node-pipeline --alias foo.domain.com
+  - now-pipeline --alias foo.domain.com
 ```
 
 Pass test command and name of the environment variable for deployed url
