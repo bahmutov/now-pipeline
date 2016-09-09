@@ -96,6 +96,14 @@ const updateAliasIfNecessary = R.curry(
         }
         console.log('setting new alias to %s', aliasName)
         return nowPipeline.now.createAlias(deploy.uid, aliasName)
+          .catch(err => {
+            console.error('Could not create alias')
+            console.error(err.message)
+            console.error('Note: you need to create a FIRST alias to domain MANUALLY')
+            console.error('using a command like this:')
+            console.error(`  now alias ${deployed.url} ${aliasName}`)
+            return Promise.reject(err)
+          })
       }
 
       if (deployed.length > 1) {
