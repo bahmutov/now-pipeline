@@ -104,6 +104,12 @@ where the `package.json` has
 
 * `now-pipeline` uses [Zeit API](https://zeit.co/api) via [now-client](https://github.com/zeit/now-client).
 * You can see the list of recent actions at [Zeit dashboard](https://zeit.co/dashboard).
+* It discovers files to send using [pkgd](https://github.com/inikulin/pkgd),
+  you can see the files by using the following command
+  (read [Smaller published NPM modules](https://glebbahmutov.com/blog/smaller-published-NPM-modules/) for more details)
+```sh
+t="$(npm pack .)"; wc -c "${t}"; tar tvf "${t}"; rm "${t}"
+```
 
 ## Related
 

@@ -1,5 +1,7 @@
 {
   "name": "now-pipeline-test",
+  "version": "0.0.0",
+  "private": true,
   "dependencies": {
     "sign-bunny": "1.0.0"
   },
