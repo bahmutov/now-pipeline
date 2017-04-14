@@ -67,7 +67,7 @@ function nowApi () {
         if (r.state === 'READY') {
           return r
         }
-        if (r.state === 'DEPLOYING' || r.state === 'BOOTED') {
+        if (['DEPLOYING', 'BOOTED', 'BUILDING'].indexOf(r.state) !== -1) {
           if (secondsRemaining < sleepSeconds) {
             throw new Error('Deploy timed out\n' + JSON.stringify(r))
           }
