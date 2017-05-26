@@ -58,11 +58,10 @@
   "scripts": {
     "ban": "ban",
     "deps": "deps-ok",
-    "format": "standard-format -w src/*.js",
     "issues": "git-issues",
     "license": "license-checker --production --onlyunknown --csv",
     "lint": "standard --verbose --fix src/*.js bin/*.js",
-    "pretest": "npm run format && npm run lint",
+    "pretest": "npm run lint",
     "secure": "nsp check",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
     "test": "npm run unit",
@@ -77,8 +76,7 @@
     "mocha": "3.0.2",
     "nsp": "2.6.1",
     "pre-git": "3.10.0",
-    "standard": "8.0.0",
-    "standard-format": "2.2.3",
+    "standard": "10.0.2",
     "semantic-release": "^4.3.5"
   },
   "dependencies": {

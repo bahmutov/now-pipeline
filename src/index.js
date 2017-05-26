@@ -58,6 +58,10 @@ function nowApi () {
     ]).then(([deploys, aliases]) => combineDeploysAndAliases({deploys, aliases}))
   }
 
+  function isDeploying (state) {
+    return state === 'DEPLOYING' || state === 'BOOTED' || state === 'BUILDING'
+  }
+
   function waitUntilDeploymentReady (id, secondsRemaining) {
     la(is.number(secondsRemaining), 'wrong waiting limit', secondsRemaining)
     const sleepSeconds = 5
@@ -67,7 +71,7 @@ function nowApi () {
         if (r.state === 'READY') {
           return r
         }
-        if (r.state === 'DEPLOYING' || r.state === 'BOOTED') {
+        if (isDeploying(r.state)) {
           if (secondsRemaining < sleepSeconds) {
             throw new Error('Deploy timed out\n' + JSON.stringify(r))
           }
