@@ -69,18 +69,18 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
-    "ban-sensitive-files": "1.8.3",
+    "ban-sensitive-files": "1.9.0",
     "deps-ok": "1.2.0",
     "git-issues": "1.2.0",
     "license-checker": "6.0.0",
     "mocha": "3.0.2",
-    "nsp": "2.6.1",
-    "pre-git": "3.10.0",
-    "standard": "10.0.2",
-    "semantic-release": "^4.3.5"
+    "nsp": "2.6.3",
+    "pre-git": "3.14.0",
+    "semantic-release": "^4.3.5",
+    "standard": "10.0.2"
   },
   "dependencies": {
-    "check-more-types": "2.22.0",
+    "check-more-types": "2.24.0",
     "console.table": "0.7.0",
     "cross-spawn": "4.0.0",
     "debug": "2.2.0",
@@ -88,8 +88,8 @@
     "minimist": "1.2.0",
     "moment": "2.15.0",
     "node-sentry-error-reporter": "1.8.0",
-    "now-client": "0.4.1",
+    "now-client": "0.7.0",
     "pkgd": "1.1.2",
-    "ramda": "0.22.1"
+    "ramda": "0.23.0"
   }
 }
