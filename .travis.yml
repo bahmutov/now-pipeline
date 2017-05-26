@@ -11,14 +11,17 @@ before_script:
   - npm prune
 script:
   - npm test
-  - cd test
-  - npm run deploy
-  - npm run list
-  - npm run prune
-  - echo There should be no deploys now
-  - npm run list
-  # back to main folder
-  - cd ..
+  # disable deploys for now - need new domain
+  # because current domain used for testing bahmutov.com
+  # is now a redirect to glebbahmutov.com :(
+  # - cd test
+  # - npm run deploy
+  # - npm run list
+  # - npm run prune
+  # - echo There should be no deploys now
+  # - npm run list
+  # # back to main folder
+  # - cd ..
 after_success:
   - npm run semantic-release
 branches:
