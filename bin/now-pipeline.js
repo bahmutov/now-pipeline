@@ -135,6 +135,11 @@ const updateAliasIfNecessary = R.curry(
             alias.uid)
           return nowPipeline.remove(alias.uid)
         })
+        .catch(error => {
+          console.error('error switching alias', deploy.uid, alias.alias)
+          console.error(error)
+          throw error
+        })
     })
   })
 
