@@ -4,12 +4,13 @@ cache:
   directories:
     - node_modules
 notifications:
-  email: false
+  email: true
 node_js:
   - '6'
 before_script:
   - npm prune
 script:
+  - ./next-update-travis.sh
   - npm test
   # disable deploys for now - need new domain
   # because current domain used for testing bahmutov.com

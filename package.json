@@ -75,6 +75,7 @@
     "github-post-release": "1.12.2",
     "license-checker": "6.0.0",
     "mocha": "3.0.2",
+    "next-update-travis": "1.7.0",
     "nsp": "2.6.3",
     "pre-git": "3.14.0",
     "semantic-release": "6.3.6",
