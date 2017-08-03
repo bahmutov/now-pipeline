@@ -8,6 +8,13 @@
 [![Build status][ci-image] ][ci-url]
 [![semantic-release][semantic-image] ][semantic-url]
 [![js-standard-style][standard-image]][standard-url]
+[![first-timers-only](http://img.shields.io/badge/first--timers--only-friendly-blue.svg)](https://github.com/bahmutov/now-pipeline/labels/first-timers-only)
+
+## First time contributors
+
+This repo is [first time OSS contributor friendly](http://www.firsttimersonly.com/).
+See [these issues](https://github.com/bahmutov/now-pipeline/labels/first-timers-only)
+to contribute in meaningful way.
 
 ## What and why
 
