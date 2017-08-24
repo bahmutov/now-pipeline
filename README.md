@@ -85,6 +85,7 @@ script:
 
 * [todomvc-express](https://github.com/bahmutov/todomvc-express/blob/master/.travis.yml)
 * [express-sessions-tutorial](https://github.com/bahmutov/express-sessions-tutorial/blob/master/.travis.yml)
+* [test-semantic-deploy-with-now](https://github.com/bahmutov/test-semantic-deploy-with-now)
 
 ## Additional bin commands
 
