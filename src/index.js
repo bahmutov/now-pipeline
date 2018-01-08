@@ -118,8 +118,13 @@ function nowApi () {
 
       la(is.strings(filenames), 'missing file names', filenames)
       la(is.not.empty(filenames), 'expected list of files', filenames)
+
+      const optionalFiles = ['.npmignore']
+
       filenames.forEach(name => {
-        la(fs.existsSync(name), 'cannot find file', name)
+        if (!(optionalFiles.includes(name))) {
+          la(fs.existsSync(name), 'cannot find file', name)
+        }
       })
 
       const isPackageJson = R.test(/package\.json$/)
