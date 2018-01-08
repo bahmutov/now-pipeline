@@ -121,6 +121,7 @@ where the `package.json` has
 ```sh
 t="$(npm pack .)"; wc -c "${t}"; tar tvf "${t}"; rm "${t}"
 ```
+* file `.npmignore` is considered an optional file
 
 ## Related
 
