@@ -73,6 +73,14 @@ script:
   - now-pipeline --alias foo.domain.com
 ```
 
+Pass in path to be used as deploy directory
+
+```yml
+script:
+  - npm i -g now-pipeline
+  - now-pipeline --dir your/directory
+```
+
 Pass test command and name of the environment variable for deployed url
 
 ```yml

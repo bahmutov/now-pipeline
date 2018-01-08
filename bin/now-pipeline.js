@@ -21,6 +21,24 @@ const nowPipeline = require('..')
 const pkg = nowPipeline.getPackage()
 
 function findFiles () {
+  if ('dir' in argv) {
+    // Pass directory with --dir flag
+    let dirArg = argv.dir
+    la(is.maybe.string(dirArg), 'directory path should be a string', dirArg)
+
+    try {
+      // change cwd to the passed directory path
+      process.chdir(`${process.cwd()}${dirArg.charAt(0) !== '/' ? `/${dirArg}` : dirArg}`)
+    } catch (err) {
+      console.error('error changing deploy directory')
+      console.error(err)
+      console.error(`attempted directory: ${dirArg}`)
+      la(new Error(err))
+    }
+  }
+
+  debug('deploying from directory', process.cwd())
+
   return pkgd(process.cwd())
     .then(R.prop('files'))
 }
