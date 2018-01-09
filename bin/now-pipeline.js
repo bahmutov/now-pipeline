@@ -12,6 +12,7 @@ const is = require('check-more-types')
 const la = require('lazy-ass')
 const pkgd = require('pkgd')
 const argv = require('minimist')(process.argv.slice(2))
+const path = require('path')
 
 const envUrlName = 'NOW_URL'
 const passAsName = argv.as || envUrlName
@@ -24,11 +25,11 @@ function findFiles () {
   if ('dir' in argv) {
     // Pass directory with --dir flag
     let dirArg = argv.dir
-    la(is.maybe.string(dirArg), 'directory path should be a string', dirArg)
+    la(is.string(dirArg), 'directory path should be a string', dirArg)
 
     try {
       // change cwd to the passed directory path
-      process.chdir(`${process.cwd()}${dirArg.charAt(0) !== '/' ? `/${dirArg}` : dirArg}`)
+      process.chdir(path.resolve(argv.dir))
     } catch (err) {
       console.error('error changing deploy directory')
       console.error(err)
