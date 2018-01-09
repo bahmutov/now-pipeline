@@ -111,6 +111,10 @@ where the `package.json` has
 }
 ```
 
+## Debugging
+
+You can see verbose log messages by running this tool with environment variable `DEBUG=now-pipeline`
+
 ## Details
 
 * `now-pipeline` uses [Zeit API](https://zeit.co/api) via [now-client](https://github.com/zeit/now-client).
