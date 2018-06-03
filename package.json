@@ -89,7 +89,7 @@
     "debug": "3.1.0",
     "lazy-ass": "1.6.0",
     "minimist": "1.2.0",
-    "moment": "2.22.1",
+    "moment": "2.22.2",
     "node-sentry-error-reporter": "1.8.0",
     "now-client": "0.7.0",
     "pkgd": "1.1.2",
