@@ -93,7 +93,7 @@
     "node-sentry-error-reporter": "1.8.0",
     "now-client": "0.7.0",
     "pkgd": "1.1.2",
-    "ramda": "0.25.0"
+    "ramda": "0.26.1"
   },
   "release": {
     "analyzeCommits": "simple-commit-message",
